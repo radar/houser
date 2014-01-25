@@ -28,6 +28,16 @@ If you're using a TLD like `.co.uk` instead of `.com`, you will need to specify 
     config.middleware.use Houser::Middleware, 
       :class_name => 'Model',
       :tld_length => 2
+      
+## Usage
+
+There are two rack environment variables set that you can use throughout your application to scope resources. 
+      
+`env['X-Houser-Subdomain']` is the subdomain of the request. 
+
+`env['X-Houser-Object']` is the instance of the Class that is found based on the subdomain. 
+
+If no object is found for the subdomain the request is recieved on, both of these variables will be nil. 
 
 ## Contributing
 
