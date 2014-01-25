@@ -30,7 +30,7 @@ describe Houser::Middleware do
     expect(Account).to_not receive(:find_by)
     code, env = middleware.call(env_for("http://example.com"))
     expect(env['X-Houser-Subdomain']).to be_nil
-    expect(env['X-Houser-ID']).to be_nil
+    expect(env['X-Houser-Object']).to be_nil
   end
 
   it "sets X-HOUSER-ID header for known subdomains" do
@@ -38,14 +38,36 @@ describe Houser::Middleware do
     expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(account)
     code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
     expect(env['X-Houser-Subdomain']).to eq(subdomain)
-    expect(env['X-Houser-ID']).to eq(1)
+    expect(env['X-Houser-Object']).to eq(account)
   end
 
   it "returns no headers for unknown subdomains" do
     expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(nil)
     code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
     expect(env['X-Houser-Subdomain']).to be_nil
-    expect(env['X-Houser-ID']).to be_nil
+    expect(env['X-Houser-Object']).to be_nil
+  end
+
+  context "with a different class name" do
+    let(:options) do
+      { 
+        class_name: 'Store'
+      }
+    end
+
+    let(:store) { double(id: 2) }
+
+    before do
+      stub_const('Store', Class.new)
+    end
+
+    it "calls the right class" do
+      expect(Account).to_not receive(:find_by)
+      expect(Store).to receive(:find_by).with(subdomain: subdomain).and_return(store)
+      code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
+      expect(env['X-Houser-Subdomain']).to eq(subdomain)
+      expect(env['X-Houser-Object']).to eq(store)
+    end
   end
 
   context "with more than one-level of TLD" do
