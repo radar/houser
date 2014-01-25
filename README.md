@@ -37,6 +37,8 @@ There are two rack environment variables set that you can use throughout your ap
 
 `env['X-Houser-Object']` is the instance of the Class that is found based on the subdomain. 
 
+If no object is found for the subdomain the request is recieved on, both of these variables will be nil. 
+
 ## Contributing
 
 Please see [CONTRIBUTING.md](https://github.com/radar/houser/CONTRIBUTING.md)
