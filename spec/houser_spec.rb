@@ -85,4 +85,21 @@ describe Houser::Middleware do
       expect(env['X-Houser-ID']).to be_nil
     end
   end
+
+  context "with a different column name" do
+    let(:options) do
+      { 
+        subdomain_column: 'foo',
+        class_name: 'Account'
+      }
+    end
+
+    it "finds by an alternative column" do
+      account = double(id: 1)
+      expect(Account).to receive(:find_by).with(:foo => subdomain).and_return(account)
+      code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
+      expect(env['X-Houser-Subdomain']).to eq(subdomain)
+      expect(env['X-Houser-Object']).to eq(account)
+    end
+  end
 end

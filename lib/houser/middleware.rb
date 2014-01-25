@@ -6,6 +6,7 @@ module Houser
 
     def initialize(app, options={})
       @options = options
+      @options[:subdomain_column] ||= "subdomain"
       @options[:class] = Object.const_get(options[:class_name])
       @options[:tld_length] ||= 1
       @app = app
@@ -25,7 +26,7 @@ module Houser
     private
 
     def find_tenant(env, subdomain)
-      object = options[:class].find_by(subdomain: subdomain)
+      object = options[:class].find_by(options[:subdomain_column].to_sym => subdomain)
       if object
         env['X-Houser-Subdomain'] = subdomain
         env['X-Houser-Object'] = object
