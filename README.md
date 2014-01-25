@@ -1,5 +1,7 @@
 # Houser
 
+![Build Status](https://api.travis-ci.org/radar/houser.png?branch=master)
+
 This is the multitenancy gem that will be used in the Multitenancy with Rails book as an alternative method to PostgreSQL schemas which can have their own set of problems.
 
 Houser provides you with two Rack environment variables which can then be used in your application to scope resources correctly. That is all it does for the time being, and it will probably do more in the future.
