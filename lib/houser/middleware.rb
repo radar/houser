@@ -26,7 +26,7 @@ module Houser
       object = Account.find_by(subdomain: subdomain)
       if object
         env['X-Houser-Subdomain'] = subdomain
-        env['X-Houser-ID'] = object.id        
+        env['X-Houser-Object'] = object
       end
     end
   end
