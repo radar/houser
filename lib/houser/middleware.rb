@@ -23,7 +23,7 @@ module Houser
     private
 
     def find_tenant(env, subdomain)
-      object = Account.find_by(subdomain: subdomain)
+      object = @options[:class_name].find_by(subdomain: subdomain)
       if object
         env['X-Houser-Subdomain'] = subdomain
         env['X-Houser-Object'] = object
