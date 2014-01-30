@@ -31,13 +31,22 @@ If you're using a TLD like `.co.uk` instead of `.com`, you will need to specify 
       
 ## Usage
 
-There are two rack environment variables set that you can use throughout your application to scope resources. 
-      
-`env['X-Houser-Subdomain']` is the subdomain of the request. 
-
-`env['X-Houser-Object']` is the instance of the Class that is found based on the subdomain. 
+There are two rack environment variables set by the Houser middleware that you can use throughout your application to scope resources. 
 
 If no object is found for the subdomain the request is recieved on, both of these variables will be nil. 
+
+### `env['X-Houser-Subdomain']`
+
+The complete subdomain of the request. The following domains have the following subdomains:
+
+* `sub1.example.com => sub1`
+* `sub2.sub1.example.com => sub2.sub1`
+* `sub1.example.co.uk => sub1`
+* `sub2.sub1.example.co.uk => sub2.sub1`
+
+### `env['X-Houser-Object']`
+
+The instance of the Class that is found based on the subdomain. 
 
 ## Contributing
 
