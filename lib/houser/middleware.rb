@@ -16,7 +16,8 @@ module Houser
       domain_parts = env['HTTP_HOST'].split('.')
 
       if domain_parts.length > 1 + options[:tld_length]
-        subdomain = domain_parts[0]
+        domain_name = domain_parts[(-options[:tld_length] - 1)..-1]
+        subdomain = (domain_parts - domain_name).join('.')
         find_tenant(env, subdomain)
       end
 

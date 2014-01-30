@@ -48,6 +48,19 @@ describe Houser::Middleware do
     expect(env['X-Houser-Object']).to be_nil
   end
 
+
+  context "double subdomain" do
+    let(:subdomain) { 'ruby.melbourne' }
+
+    it "sets X-HOUSER-ID header for known subdomains within subdomains" do
+      account = double(id: 1)
+      expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(account)
+      code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
+      expect(env['X-Houser-Subdomain']).to eq(subdomain)
+      expect(env['X-Houser-Object']).to eq(account)
+    end
+  end
+
   context "with a different class name" do
     let(:options) do
       { 
@@ -83,6 +96,18 @@ describe Houser::Middleware do
       code, env = middleware.call(env_for("http://example.co.uk"))
       expect(env['X-Houser-Subdomain']).to be_nil
       expect(env['X-Houser-ID']).to be_nil
+    end
+
+    context "double subdomain" do
+      let(:subdomain) { 'ruby.melbourne' }
+
+      it "sets X-HOUSER-ID header for known subdomains within subdomains" do
+        account = double(id: 1)
+        expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(account)
+        code, env = middleware.call(env_for("http://#{subdomain}.example.co.uk"))
+        expect(env['X-Houser-Subdomain']).to eq(subdomain)
+        expect(env['X-Houser-Object']).to eq(account)
+      end
     end
   end
 
