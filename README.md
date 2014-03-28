@@ -33,7 +33,7 @@ If you're using a TLD like `.co.uk` instead of `.com`, you will need to specify 
 
 There are two rack environment variables set by the Houser middleware that you can use throughout your application to scope resources. 
 
-If no object is found for the subdomain the request is recieved on, both of these variables will be nil. 
+If no object is found for the subdomain the request is received on, both of these variables will be nil. 
 
 ### `env['X-Houser-Subdomain']`
 
