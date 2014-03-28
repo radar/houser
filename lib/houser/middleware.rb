@@ -27,7 +27,7 @@ module Houser
     private
 
     def find_tenant(env, subdomain)
-      object = options[:class].find_by(options[:subdomain_column].to_sym => subdomain)
+      object = options[:class].where(options[:subdomain_column].to_sym => subdomain).first
       if object
         env['X-Houser-Subdomain'] = subdomain
         env['X-Houser-Object'] = object

@@ -27,7 +27,7 @@ describe Houser::Middleware do
   end
 
   it "does nothing for non-subdomained requests" do
-    expect(Account).to_not receive(:find_by)
+    expect(Account).to_not receive(:where)
     code, env = middleware.call(env_for("http://example.com"))
     expect(env['X-Houser-Subdomain']).to be_nil
     expect(env['X-Houser-Object']).to be_nil
@@ -35,14 +35,14 @@ describe Houser::Middleware do
 
   it "sets X-HOUSER-ID header for known subdomains" do
     account = double(id: 1)
-    expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(account)
+    expect(Account).to receive(:where).with(subdomain: subdomain).and_return([account])
     code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
     expect(env['X-Houser-Subdomain']).to eq(subdomain)
     expect(env['X-Houser-Object']).to eq(account)
   end
 
   it "returns no headers for unknown subdomains" do
-    expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(nil)
+    expect(Account).to receive(:where).with(subdomain: subdomain).and_return([])
     code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
     expect(env['X-Houser-Subdomain']).to be_nil
     expect(env['X-Houser-Object']).to be_nil
@@ -54,7 +54,7 @@ describe Houser::Middleware do
 
     it "sets X-HOUSER-ID header for known subdomains within subdomains" do
       account = double(id: 1)
-      expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(account)
+      expect(Account).to receive(:where).with(subdomain: subdomain).and_return([account])
       code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
       expect(env['X-Houser-Subdomain']).to eq(subdomain)
       expect(env['X-Houser-Object']).to eq(account)
@@ -75,8 +75,8 @@ describe Houser::Middleware do
     end
 
     it "calls the right class" do
-      expect(Account).to_not receive(:find_by)
-      expect(Store).to receive(:find_by).with(subdomain: subdomain).and_return(store)
+      expect(Account).to_not receive(:where)
+      expect(Store).to receive(:where).with(subdomain: subdomain).and_return([store])
       code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
       expect(env['X-Houser-Subdomain']).to eq(subdomain)
       expect(env['X-Houser-Object']).to eq(store)
@@ -92,7 +92,7 @@ describe Houser::Middleware do
     end
 
     it "supports more than one-level of TLD" do
-      expect(Account).to_not receive(:find_by)
+      expect(Account).to_not receive(:where)
       code, env = middleware.call(env_for("http://example.co.uk"))
       expect(env['X-Houser-Subdomain']).to be_nil
       expect(env['X-Houser-ID']).to be_nil
@@ -103,7 +103,7 @@ describe Houser::Middleware do
 
       it "sets X-HOUSER-ID header for known subdomains within subdomains" do
         account = double(id: 1)
-        expect(Account).to receive(:find_by).with(subdomain: subdomain).and_return(account)
+        expect(Account).to receive(:where).with(subdomain: subdomain).and_return([account])
         code, env = middleware.call(env_for("http://#{subdomain}.example.co.uk"))
         expect(env['X-Houser-Subdomain']).to eq(subdomain)
         expect(env['X-Houser-Object']).to eq(account)
@@ -121,7 +121,7 @@ describe Houser::Middleware do
 
     it "finds by an alternative column" do
       account = double(id: 1)
-      expect(Account).to receive(:find_by).with(:foo => subdomain).and_return(account)
+      expect(Account).to receive(:where).with(:foo => subdomain).and_return([account])
       code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
       expect(env['X-Houser-Subdomain']).to eq(subdomain)
       expect(env['X-Houser-Object']).to eq(account)
