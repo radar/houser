@@ -18,17 +18,21 @@ And then execute:
 
 In `config/application.rb`, put this line:
 
-    config.middleware.use Houser::Middleware, 
-      :class_name => 'Model'
+``` ruby
+config.middleware.use Houser::Middleware, 
+  :class_name => 'Model'
+```
 
 Where 'Model' is the class that you're scoping by. 
 
 If you're using a TLD like `.co.uk` instead of `.com`, you will need to specify `tld_length` too:
 
-    config.middleware.use Houser::Middleware, 
-      :class_name => 'Model',
-      :tld_length => 2
-      
+``` ruby
+config.middleware.use Houser::Middleware, 
+  :class_name => 'Model',
+  :tld_length => 2
+```
+
 ## Usage
 
 There are two rack environment variables set by the Houser middleware that you can use throughout your application to scope resources. 
