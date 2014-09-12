@@ -29,35 +29,35 @@ describe Houser::Middleware do
   it "does nothing for non-subdomained requests" do
     expect(Account).to_not receive(:where)
     code, env = middleware.call(env_for("http://example.com"))
-    expect(env['X-Houser-Subdomain']).to be_nil
-    expect(env['X-Houser-Object']).to be_nil
+    expect(env['Houser-Subdomain']).to be_nil
+    expect(env['Houser-Object']).to be_nil
   end
 
-  it "sets X-HOUSER-ID header for known subdomains" do
+  it "sets Houser-ID header for known subdomains" do
     account = double(id: 1)
     expect(Account).to receive(:where).with("subdomain" => subdomain).and_return([account])
     code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
-    expect(env['X-Houser-Subdomain']).to eq(subdomain)
-    expect(env['X-Houser-Object']).to eq(account)
+    expect(env['Houser-Subdomain']).to eq(subdomain)
+    expect(env['Houser-Object']).to eq(account)
   end
 
   it "returns no headers for unknown subdomains" do
     expect(Account).to receive(:where).with("subdomain" => subdomain).and_return([])
     code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
-    expect(env['X-Houser-Subdomain']).to be_nil
-    expect(env['X-Houser-Object']).to be_nil
+    expect(env['Houser-Subdomain']).to be_nil
+    expect(env['Houser-Object']).to be_nil
   end
 
 
   context "double subdomain" do
     let(:subdomain) { 'ruby.melbourne' }
 
-    it "sets X-HOUSER-ID header for known subdomains within subdomains" do
+    it "sets Houser-ID header for known subdomains within subdomains" do
       account = double(id: 1)
       expect(Account).to receive(:where).with("subdomain" => subdomain).and_return([account])
       code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
-      expect(env['X-Houser-Subdomain']).to eq(subdomain)
-      expect(env['X-Houser-Object']).to eq(account)
+      expect(env['Houser-Subdomain']).to eq(subdomain)
+      expect(env['Houser-Object']).to eq(account)
     end
   end
 
@@ -78,8 +78,8 @@ describe Houser::Middleware do
       expect(Account).to_not receive(:where)
       expect(Store).to receive(:where).with("subdomain" => subdomain).and_return([store])
       code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
-      expect(env['X-Houser-Subdomain']).to eq(subdomain)
-      expect(env['X-Houser-Object']).to eq(store)
+      expect(env['Houser-Subdomain']).to eq(subdomain)
+      expect(env['Houser-Object']).to eq(store)
     end
   end
 
@@ -94,19 +94,19 @@ describe Houser::Middleware do
     it "supports more than one-level of TLD" do
       expect(Account).to_not receive(:where)
       code, env = middleware.call(env_for("http://example.co.uk"))
-      expect(env['X-Houser-Subdomain']).to be_nil
-      expect(env['X-Houser-ID']).to be_nil
+      expect(env['Houser-Subdomain']).to be_nil
+      expect(env['Houser-ID']).to be_nil
     end
 
     context "double subdomain" do
       let(:subdomain) { 'ruby.melbourne' }
 
-      it "sets X-HOUSER-ID header for known subdomains within subdomains" do
+      it "sets Houser-ID header for known subdomains within subdomains" do
         account = double(id: 1)
         expect(Account).to receive(:where).with("subdomain" => subdomain).and_return([account])
         code, env = middleware.call(env_for("http://#{subdomain}.example.co.uk"))
-        expect(env['X-Houser-Subdomain']).to eq(subdomain)
-        expect(env['X-Houser-Object']).to eq(account)
+        expect(env['Houser-Subdomain']).to eq(subdomain)
+        expect(env['Houser-Object']).to eq(account)
       end
     end
   end
@@ -123,8 +123,8 @@ describe Houser::Middleware do
       account = double(id: 1)
       expect(Account).to receive(:where).with("foo" => subdomain).and_return([account])
       code, env = middleware.call(env_for("http://#{subdomain}.example.com"))
-      expect(env['X-Houser-Subdomain']).to eq(subdomain)
-      expect(env['X-Houser-Object']).to eq(account)
+      expect(env['Houser-Subdomain']).to eq(subdomain)
+      expect(env['Houser-Object']).to eq(account)
     end
   end
 end
