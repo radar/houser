@@ -1,7 +1,7 @@
 PATH
   remote: ../
   specs:
-    houser (1.1.0)
+    houser (2.0.0)
       rack
 
 GEM
@@ -34,7 +34,7 @@ GEM
     activesupport (3.2.18)
       i18n (~> 0.6, >= 0.6.4)
       multi_json (~> 1.0)
-    appraisal (1.0.0)
+    appraisal (1.0.2)
       bundler
       rake
       thor (>= 0.14.0)
@@ -44,7 +44,7 @@ GEM
     diff-lcs (1.2.5)
     erubis (2.7.0)
     hike (1.2.3)
-    i18n (0.6.9)
+    i18n (0.6.11)
     journey (1.0.4)
     json (1.8.1)
     mail (2.5.4)
@@ -54,7 +54,7 @@ GEM
     mime-types (1.25.1)
     multi_json (1.10.1)
     polyglot (0.3.5)
-    pry (0.10.0)
+    pry (0.10.1)
       coderay (~> 1.1.0)
       method_source (~> 0.8.1)
       slop (~> 3.4)
@@ -83,12 +83,12 @@ GEM
     rake (10.3.2)
     rdoc (3.12.2)
       json (~> 1.4)
-    rspec-core (3.0.2)
+    rspec-core (3.0.4)
       rspec-support (~> 3.0.0)
-    rspec-expectations (3.0.2)
+    rspec-expectations (3.0.4)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.0.0)
-    rspec-mocks (3.0.2)
+    rspec-mocks (3.0.4)
       rspec-support (~> 3.0.0)
     rspec-rails (3.0.1)
       actionpack (>= 3.0)
@@ -98,8 +98,8 @@ GEM
       rspec-expectations (~> 3.0.0)
       rspec-mocks (~> 3.0.0)
       rspec-support (~> 3.0.0)
-    rspec-support (3.0.2)
-    slop (3.5.0)
+    rspec-support (3.0.4)
+    slop (3.6.0)
     sprockets (2.2.2)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -110,13 +110,13 @@ GEM
     treetop (1.4.15)
       polyglot
       polyglot (>= 0.3.1)
-    tzinfo (0.3.39)
+    tzinfo (0.3.41)
 
 PLATFORMS
   ruby
 
 DEPENDENCIES
-  appraisal (= 1.0.0)
+  appraisal (= 1.0.2)
   bundler (~> 1.5)
   houser!
   pry
