@@ -39,7 +39,7 @@ There are two rack environment variables set by the Houser middleware that you c
 
 If no object is found for the subdomain the request is received on, both of these variables will be nil. 
 
-### `env['X-Houser-Subdomain']`
+### `env['Houser-Subdomain']`
 
 The complete subdomain of the request. The following domains have the following subdomains:
 
@@ -48,7 +48,7 @@ The complete subdomain of the request. The following domains have the following 
 * `sub1.example.co.uk => sub1`
 * `sub2.sub1.example.co.uk => sub2.sub1`
 
-### `env['X-Houser-Object']`
+### `env['Houser-Object']`
 
 The instance of the Class that is found based on the subdomain. 
 
