@@ -54,4 +54,4 @@ The instance of the Class that is found based on the subdomain.
 
 ## Contributing
 
-Please see [CONTRIBUTING.md](https://github.com/radar/houser/CONTRIBUTING.md)
+Please see [CONTRIBUTING.md](https://github.com/radar/houser/blob/master/CONTRIBUTING.md)
